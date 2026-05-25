@@ -38,20 +38,23 @@ into a structured format, and stores it locally as both CSV and SQLite.
 
 ## Project structure
 
+```
 weather-pipeline/
 ├── config.py       # API base URL, city coordinates, and parameters
 ├── extract.py      # Fetches raw JSON data from the Open-Meteo API
 ├── transform.py    # Parses JSON, builds DataFrame, formats timestamps
 ├── load.py         # Saves data to CSV and SQLite
-├── pipeline.py     # Orchestrates the full ETL pipeline
+├── pipeline.py     # Orchestrates the full ETT pipeline
 ├── requirements.txt
-└── data/           # Output folder 
+└── data/           # Output folder (generated on run, gitignored)
+```
 
 ## Sample output
 
-time                  temperature_2m  precipitation  windspeed_10m  city
-2026-05-25 00:00:00   27.5            0.4            3.0            lagos
-2026-05-25 01:00:00   26.9            0.0            1.8            lagos
-2026-05-25 02:00:00   26.5            0.5            5.4            lagos
-2026-05-25 03:00:00   25.1            0.5            2.7            lagos
-2026-05-25 04:00:00   24.6            2.6            5.3            lagos
+| time                | temperature_2m | precipitation | windspeed_10m | city  |
+|---------------------|----------------|---------------|---------------|-------|
+| 2026-05-25 00:00:00 | 27.5           | 0.4           | 3.0           | lagos |
+| 2026-05-25 01:00:00 | 26.9           | 0.0           | 1.8           | lagos |
+| 2026-05-25 02:00:00 | 26.5           | 0.5           | 5.4           | lagos |
+| 2026-05-25 03:00:00 | 25.1           | 0.5           | 2.7           | lagos |
+| 2026-05-25 04:00:00 | 24.6           | 2.6           | 5.3           | lagos |
