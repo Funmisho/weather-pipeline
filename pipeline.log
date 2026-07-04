@@ -1,0 +1,375 @@
+2026-07-02 23:17:21,020 - __main__ - INFO - Starting weather data pipeline...
+2026-07-02 23:17:25,177 - __main__ - INFO - Successfully processed lagos
+2026-07-02 23:17:26,072 - __main__ - INFO - Successfully processed abuja
+2026-07-02 23:17:27,020 - __main__ - INFO - Successfully processed kano
+2026-07-02 23:17:27,021 - __main__ - INFO - Combining data completed. Total records: 216
+2026-07-02 23:17:27,034 - load - INFO - Data successfuly saved to data/weather_data.csv
+2026-07-02 23:17:27,085 - load - INFO - Data succesfully loaded to data/weather.db
+2026-07-02 23:17:27,085 - __main__ - INFO - Pipeline executed successfully finished.
+2026-07-03 03:07:28,376 - __main__ - INFO - Starting weather data pipeline...
+2026-07-03 03:07:29,509 - __main__ - INFO - Successfully processed lagos
+2026-07-03 03:07:30,470 - __main__ - INFO - Successfully processed abuja
+2026-07-03 03:07:31,410 - __main__ - INFO - Successfully processed kano
+2026-07-03 03:07:31,411 - __main__ - INFO - Combining data completed. Total records: 216
+2026-07-03 03:07:31,428 - load - INFO - Data successfuly saved to data/weather_data.csv
+2026-07-03 03:07:31,471 - load - INFO - Data succesfully loaded to data/weather.db
+2026-07-03 03:07:31,471 - load - INFO - Connecting to database to load star schema: data/weather.db
+2026-07-03 03:07:31,548 - load - INFO - Star schema processing complete. Iterated through 216 rows.
+2026-07-03 03:07:31,548 - __main__ - INFO - Pipeline executed successfully finished.
+2026-07-03 03:18:29,775 - __main__ - INFO - Starting weather data pipeline...
+2026-07-03 03:18:39,791 - __main__ - ERROR - failed to process lagos: HTTPSConnectionPool(host='api.open-meteo.com', port=443): Max retries exceeded with url: /v1/forecast?latitude=6.5244&longitude=3.3792&hourly=temperature_2m&hourly=precipitation&hourly=windspeed_10m&forecast_days=3 (Caused by NameResolutionError("HTTPSConnection(host='api.open-meteo.com', port=443): Failed to resolve 'api.open-meteo.com' ([Errno -3] Temporary failure in name resolution)"))
+Traceback (most recent call last):
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/urllib3/connection.py", line 204, in _new_conn
+    sock = connection.create_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/urllib3/util/connection.py", line 60, in create_connection
+    for res in socket.getaddrinfo(host, port, family, socket.SOCK_STREAM):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/socket.py", line 963, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+socket.gaierror: [Errno -3] Temporary failure in name resolution
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 788, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 488, in _make_request
+    raise new_e
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 464, in _make_request
+    self._validate_conn(conn)
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 1106, in _validate_conn
+    conn.connect()
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/urllib3/connection.py", line 759, in connect
+    self.sock = sock = self._new_conn()
+                       ^^^^^^^^^^^^^^^^
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/urllib3/connection.py", line 211, in _new_conn
+    raise NameResolutionError(self.host, self, e) from e
+urllib3.exceptions.NameResolutionError: HTTPSConnection(host='api.open-meteo.com', port=443): Failed to resolve 'api.open-meteo.com' ([Errno -3] Temporary failure in name resolution)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/requests/adapters.py", line 696, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 842, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/urllib3/util/retry.py", line 543, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='api.open-meteo.com', port=443): Max retries exceeded with url: /v1/forecast?latitude=6.5244&longitude=3.3792&hourly=temperature_2m&hourly=precipitation&hourly=windspeed_10m&forecast_days=3 (Caused by NameResolutionError("HTTPSConnection(host='api.open-meteo.com', port=443): Failed to resolve 'api.open-meteo.com' ([Errno -3] Temporary failure in name resolution)"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/zaza/weather-pipeline/pipeline.py", line 28, in run_pipeline
+    data = extract(location=coords, variable=HOURLY_VARIABLES)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zaza/weather-pipeline/extract.py", line 19, in extract
+    response = requests.get(url, params=params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/requests/api.py", line 87, in get
+    return request("get", url, params=params, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/requests/api.py", line 71, in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/requests/sessions.py", line 651, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/requests/sessions.py", line 784, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/requests/adapters.py", line 729, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPSConnectionPool(host='api.open-meteo.com', port=443): Max retries exceeded with url: /v1/forecast?latitude=6.5244&longitude=3.3792&hourly=temperature_2m&hourly=precipitation&hourly=windspeed_10m&forecast_days=3 (Caused by NameResolutionError("HTTPSConnection(host='api.open-meteo.com', port=443): Failed to resolve 'api.open-meteo.com' ([Errno -3] Temporary failure in name resolution)"))
+2026-07-03 03:18:49,846 - __main__ - ERROR - failed to process abuja: HTTPSConnectionPool(host='api.open-meteo.com', port=443): Max retries exceeded with url: /v1/forecast?latitude=9.0765&longitude=7.3986&hourly=temperature_2m&hourly=precipitation&hourly=windspeed_10m&forecast_days=3 (Caused by NameResolutionError("HTTPSConnection(host='api.open-meteo.com', port=443): Failed to resolve 'api.open-meteo.com' ([Errno -3] Temporary failure in name resolution)"))
+Traceback (most recent call last):
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/urllib3/connection.py", line 204, in _new_conn
+    sock = connection.create_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/urllib3/util/connection.py", line 60, in create_connection
+    for res in socket.getaddrinfo(host, port, family, socket.SOCK_STREAM):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/socket.py", line 963, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+socket.gaierror: [Errno -3] Temporary failure in name resolution
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 788, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 488, in _make_request
+    raise new_e
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 464, in _make_request
+    self._validate_conn(conn)
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 1106, in _validate_conn
+    conn.connect()
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/urllib3/connection.py", line 759, in connect
+    self.sock = sock = self._new_conn()
+                       ^^^^^^^^^^^^^^^^
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/urllib3/connection.py", line 211, in _new_conn
+    raise NameResolutionError(self.host, self, e) from e
+urllib3.exceptions.NameResolutionError: HTTPSConnection(host='api.open-meteo.com', port=443): Failed to resolve 'api.open-meteo.com' ([Errno -3] Temporary failure in name resolution)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/requests/adapters.py", line 696, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 842, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/urllib3/util/retry.py", line 543, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='api.open-meteo.com', port=443): Max retries exceeded with url: /v1/forecast?latitude=9.0765&longitude=7.3986&hourly=temperature_2m&hourly=precipitation&hourly=windspeed_10m&forecast_days=3 (Caused by NameResolutionError("HTTPSConnection(host='api.open-meteo.com', port=443): Failed to resolve 'api.open-meteo.com' ([Errno -3] Temporary failure in name resolution)"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/zaza/weather-pipeline/pipeline.py", line 28, in run_pipeline
+    data = extract(location=coords, variable=HOURLY_VARIABLES)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zaza/weather-pipeline/extract.py", line 19, in extract
+    response = requests.get(url, params=params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/requests/api.py", line 87, in get
+    return request("get", url, params=params, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/requests/api.py", line 71, in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/requests/sessions.py", line 651, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/requests/sessions.py", line 784, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/requests/adapters.py", line 729, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPSConnectionPool(host='api.open-meteo.com', port=443): Max retries exceeded with url: /v1/forecast?latitude=9.0765&longitude=7.3986&hourly=temperature_2m&hourly=precipitation&hourly=windspeed_10m&forecast_days=3 (Caused by NameResolutionError("HTTPSConnection(host='api.open-meteo.com', port=443): Failed to resolve 'api.open-meteo.com' ([Errno -3] Temporary failure in name resolution)"))
+2026-07-03 03:18:59,871 - __main__ - ERROR - failed to process kano: HTTPSConnectionPool(host='api.open-meteo.com', port=443): Max retries exceeded with url: /v1/forecast?latitude=12.0022&longitude=8.592&hourly=temperature_2m&hourly=precipitation&hourly=windspeed_10m&forecast_days=3 (Caused by NameResolutionError("HTTPSConnection(host='api.open-meteo.com', port=443): Failed to resolve 'api.open-meteo.com' ([Errno -3] Temporary failure in name resolution)"))
+Traceback (most recent call last):
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/urllib3/connection.py", line 204, in _new_conn
+    sock = connection.create_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/urllib3/util/connection.py", line 60, in create_connection
+    for res in socket.getaddrinfo(host, port, family, socket.SOCK_STREAM):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/socket.py", line 963, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+socket.gaierror: [Errno -3] Temporary failure in name resolution
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 788, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 488, in _make_request
+    raise new_e
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 464, in _make_request
+    self._validate_conn(conn)
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 1106, in _validate_conn
+    conn.connect()
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/urllib3/connection.py", line 759, in connect
+    self.sock = sock = self._new_conn()
+                       ^^^^^^^^^^^^^^^^
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/urllib3/connection.py", line 211, in _new_conn
+    raise NameResolutionError(self.host, self, e) from e
+urllib3.exceptions.NameResolutionError: HTTPSConnection(host='api.open-meteo.com', port=443): Failed to resolve 'api.open-meteo.com' ([Errno -3] Temporary failure in name resolution)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/requests/adapters.py", line 696, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 842, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/urllib3/util/retry.py", line 543, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='api.open-meteo.com', port=443): Max retries exceeded with url: /v1/forecast?latitude=12.0022&longitude=8.592&hourly=temperature_2m&hourly=precipitation&hourly=windspeed_10m&forecast_days=3 (Caused by NameResolutionError("HTTPSConnection(host='api.open-meteo.com', port=443): Failed to resolve 'api.open-meteo.com' ([Errno -3] Temporary failure in name resolution)"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/zaza/weather-pipeline/pipeline.py", line 28, in run_pipeline
+    data = extract(location=coords, variable=HOURLY_VARIABLES)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zaza/weather-pipeline/extract.py", line 19, in extract
+    response = requests.get(url, params=params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/requests/api.py", line 87, in get
+    return request("get", url, params=params, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/requests/api.py", line 71, in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/requests/sessions.py", line 651, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/requests/sessions.py", line 784, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/requests/adapters.py", line 729, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPSConnectionPool(host='api.open-meteo.com', port=443): Max retries exceeded with url: /v1/forecast?latitude=12.0022&longitude=8.592&hourly=temperature_2m&hourly=precipitation&hourly=windspeed_10m&forecast_days=3 (Caused by NameResolutionError("HTTPSConnection(host='api.open-meteo.com', port=443): Failed to resolve 'api.open-meteo.com' ([Errno -3] Temporary failure in name resolution)"))
+2026-07-03 03:18:59,874 - __main__ - WARNING - No data was collected. Exiting pipeline early.
+2026-07-03 03:25:26,923 - __main__ - INFO - Starting weather data pipeline...
+2026-07-03 03:25:27,627 - __main__ - INFO - Successfully processed lagos
+2026-07-03 03:25:28,233 - __main__ - INFO - Successfully processed abuja
+2026-07-03 03:25:29,202 - __main__ - INFO - Successfully processed kano
+2026-07-03 03:25:29,205 - __main__ - INFO - Combining data completed. Total records: 216
+2026-07-03 03:25:29,225 - load - INFO - Data successfuly saved to data/weather_data.csv
+2026-07-03 03:25:29,278 - load - INFO - Data succesfully loaded to data/weather.db
+2026-07-03 03:25:29,278 - load - INFO - Connecting to database to load star schema: data/weather.db
+2026-07-03 03:32:10,726 - __main__ - INFO - Starting weather data pipeline...
+2026-07-03 03:33:15,214 - __main__ - ERROR - failed to process lagos: HTTPSConnectionPool(host='api.open-meteo.com', port=443): Max retries exceeded with url: /v1/forecast?latitude=6.5244&longitude=3.3792&hourly=temperature_2m&hourly=precipitation&hourly=windspeed_10m&forecast_days=3 (Caused by SSLError(SSLEOFError(8, '[SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1000)')))
+Traceback (most recent call last):
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 464, in _make_request
+    self._validate_conn(conn)
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 1106, in _validate_conn
+    conn.connect()
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/urllib3/connection.py", line 796, in connect
+    sock_and_verified = _ssl_wrap_socket_and_match_hostname(
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/urllib3/connection.py", line 975, in _ssl_wrap_socket_and_match_hostname
+    ssl_sock = ssl_wrap_socket(
+               ^^^^^^^^^^^^^^^^
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/urllib3/util/ssl_.py", line 433, in ssl_wrap_socket
+    ssl_sock = _ssl_wrap_socket_impl(sock, context, tls_in_tls, server_hostname)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/urllib3/util/ssl_.py", line 477, in _ssl_wrap_socket_impl
+    return ssl_context.wrap_socket(sock, server_hostname=server_hostname)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/ssl.py", line 455, in wrap_socket
+    return self.sslsocket_class._create(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/ssl.py", line 1042, in _create
+    self.do_handshake()
+  File "/usr/lib/python3.12/ssl.py", line 1320, in do_handshake
+    self._sslobj.do_handshake()
+ssl.SSLEOFError: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1000)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 788, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 488, in _make_request
+    raise new_e
+urllib3.exceptions.SSLError: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1000)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/requests/adapters.py", line 696, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 842, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/urllib3/util/retry.py", line 543, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='api.open-meteo.com', port=443): Max retries exceeded with url: /v1/forecast?latitude=6.5244&longitude=3.3792&hourly=temperature_2m&hourly=precipitation&hourly=windspeed_10m&forecast_days=3 (Caused by SSLError(SSLEOFError(8, '[SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1000)')))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/zaza/weather-pipeline/pipeline.py", line 28, in run_pipeline
+    data = extract(location=coords, variable=HOURLY_VARIABLES)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zaza/weather-pipeline/extract.py", line 19, in extract
+    response = requests.get(url, params=params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/requests/api.py", line 87, in get
+    return request("get", url, params=params, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/requests/api.py", line 71, in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/requests/sessions.py", line 651, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/requests/sessions.py", line 784, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zaza/weather-pipeline/venv/lib/python3.12/site-packages/requests/adapters.py", line 727, in send
+    raise SSLError(e, request=request)
+requests.exceptions.SSLError: HTTPSConnectionPool(host='api.open-meteo.com', port=443): Max retries exceeded with url: /v1/forecast?latitude=6.5244&longitude=3.3792&hourly=temperature_2m&hourly=precipitation&hourly=windspeed_10m&forecast_days=3 (Caused by SSLError(SSLEOFError(8, '[SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1000)')))
+2026-07-03 03:33:26,307 - __main__ - INFO - Successfully processed abuja
+2026-07-03 03:33:33,692 - __main__ - INFO - Successfully processed kano
+2026-07-03 03:33:33,694 - __main__ - INFO - Combining data completed. Total records: 144
+2026-07-03 03:33:33,710 - load - INFO - Data successfuly saved to data/weather_data.csv
+2026-07-03 03:33:33,763 - load - INFO - Data succesfully loaded to data/weather.db
+2026-07-03 03:33:33,763 - load - INFO - Connecting to database to load star schema: data/weather.db
+2026-07-03 03:33:33,802 - load - INFO - Star schema processing complete. Iterated through 144 rows.
+2026-07-03 03:33:33,803 - __main__ - INFO - Pipeline executed successfully finished.
+2026-07-04 03:05:19,591 - __main__ - INFO - Starting weather data pipeline...
+2026-07-04 03:05:20,872 - load - INFO - Staging raw JSON data for lagos into database...
+2026-07-04 03:05:20,919 - load - INFO - Successfully staged lagos.
+2026-07-04 03:05:20,920 - __main__ - INFO - Successfully processed lagos
+2026-07-04 03:05:21,956 - load - INFO - Staging raw JSON data for abuja into database...
+2026-07-04 03:05:21,969 - load - INFO - Successfully staged abuja.
+2026-07-04 03:05:21,969 - __main__ - INFO - Successfully processed abuja
+2026-07-04 03:05:22,903 - load - INFO - Staging raw JSON data for kano into database...
+2026-07-04 03:05:22,931 - load - INFO - Successfully staged kano.
+2026-07-04 03:05:22,932 - __main__ - INFO - Successfully processed kano
+2026-07-04 03:05:22,933 - __main__ - INFO - Combining data completed. Total records: 216
+2026-07-04 03:05:22,942 - load - INFO - Data successfuly saved to data/weather_data.csv
+2026-07-04 03:05:22,975 - load - INFO - Data succesfully loaded to data/weather.db
+2026-07-04 03:05:22,976 - load - INFO - Connecting to database to load star schema: data/weather.db
+2026-07-04 03:05:23,026 - load - INFO - Star schema processing complete. Iterated through 216 rows.
+2026-07-04 03:05:23,026 - __main__ - INFO - Pipeline executed successfully finished.
+2026-07-04 04:57:00,486 - __main__ - INFO - Starting weather data pipeline...
+2026-07-04 04:57:01,975 - load - INFO - Staging raw JSON data for lagos into database...
+2026-07-04 04:57:02,039 - load - INFO - Successfully staged lagos.
+2026-07-04 04:57:02,066 - validate - INFO - Starting data validation checks...
+2026-07-04 04:57:02,071 - validate - INFO - Check Passed: Column 'temperature_2m' has zero null values.
+2026-07-04 04:57:02,075 - validate - INFO - Check Passed: Column 'time' has zero null values.
+2026-07-04 04:57:02,077 - validate - INFO - Check Passed: Column 'city' has zero null values.
+2026-07-04 04:57:02,085 - validate - INFO - Check Passed: lagos has exactly 72.
+2026-07-04 04:57:02,094 - validate - INFO - Check Passed: All temperatures for lagos are within range.
+2026-07-04 04:57:02,094 - validate - INFO - All critical validation checks passed.
+2026-07-04 04:57:02,094 - __main__ - INFO - Successfully processed lagos
+2026-07-04 04:57:03,307 - load - INFO - Staging raw JSON data for abuja into database...
+2026-07-04 04:57:03,332 - load - INFO - Successfully staged abuja.
+2026-07-04 04:57:03,337 - validate - INFO - Starting data validation checks...
+2026-07-04 04:57:03,338 - validate - INFO - Check Passed: Column 'temperature_2m' has zero null values.
+2026-07-04 04:57:03,339 - validate - INFO - Check Passed: Column 'time' has zero null values.
+2026-07-04 04:57:03,339 - validate - INFO - Check Passed: Column 'city' has zero null values.
+2026-07-04 04:57:03,341 - validate - INFO - Check Passed: abuja has exactly 72.
+2026-07-04 04:57:03,344 - validate - INFO - Check Passed: All temperatures for abuja are within range.
+2026-07-04 04:57:03,344 - validate - INFO - All critical validation checks passed.
+2026-07-04 04:57:03,345 - __main__ - INFO - Successfully processed abuja
+2026-07-04 04:57:04,536 - load - INFO - Staging raw JSON data for kano into database...
+2026-07-04 04:57:04,562 - load - INFO - Successfully staged kano.
+2026-07-04 04:57:04,566 - validate - INFO - Starting data validation checks...
+2026-07-04 04:57:04,568 - validate - INFO - Check Passed: Column 'temperature_2m' has zero null values.
+2026-07-04 04:57:04,569 - validate - INFO - Check Passed: Column 'time' has zero null values.
+2026-07-04 04:57:04,571 - validate - INFO - Check Passed: Column 'city' has zero null values.
+2026-07-04 04:57:04,574 - validate - INFO - Check Passed: kano has exactly 72.
+2026-07-04 04:57:04,576 - validate - INFO - Check Passed: All temperatures for kano are within range.
+2026-07-04 04:57:04,577 - validate - INFO - All critical validation checks passed.
+2026-07-04 04:57:04,577 - __main__ - INFO - Successfully processed kano
+2026-07-04 04:57:04,578 - __main__ - INFO - Combining data completed. Total records: 216
+2026-07-04 04:57:04,590 - load - INFO - Data successfuly saved to data/weather_data.csv
+2026-07-04 04:57:04,647 - load - INFO - Data succesfully loaded to data/weather.db
+2026-07-04 04:57:04,648 - load - INFO - Connecting to database to load star schema: data/weather.db
+2026-07-04 04:57:04,705 - load - INFO - Star schema processing complete. Iterated through 216 rows.
+2026-07-04 04:57:04,706 - __main__ - INFO - Pipeline executed successfully finished.
