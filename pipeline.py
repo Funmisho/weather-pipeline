@@ -1,10 +1,10 @@
-from extract import extract
-from transform import transform 
-from config import BASE_URL, LOCATIONS, HOURLY_VARIABLES, FORECAST_DAYS
+from pipeline.extract import extract
+from pipeline.transform import transform 
+from pipeline.config import BASE_URL, LOCATIONS, HOURLY_VARIABLES, FORECAST_DAYS
 import requests
 import pandas as pd
-from load import load, load_sqlite3, load_star_schema, load_staging
-from validate import validate_weather_data
+from pipeline.load import load, load_sqlite3, load_star_schema, load_staging
+from pipeline.validate import validate_weather_data
 import logging
 
 # configure logging

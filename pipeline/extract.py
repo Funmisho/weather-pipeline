@@ -1,4 +1,4 @@
-from config import BASE_URL, LOCATIONS, HOURLY_VARIABLES, FORECAST_DAYS
+from pipeline.config import BASE_URL, LOCATIONS, HOURLY_VARIABLES, FORECAST_DAYS
 import requests
 import logging
 

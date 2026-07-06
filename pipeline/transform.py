@@ -1,5 +1,5 @@
 import pandas as pd
-from config import LOCATIONS
+from pipeline.config import LOCATIONS
 import logging
 
 # setting up logging for this file

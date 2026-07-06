@@ -373,3 +373,40 @@ requests.exceptions.SSLError: HTTPSConnectionPool(host='api.open-meteo.com', por
 2026-07-04 04:57:04,648 - load - INFO - Connecting to database to load star schema: data/weather.db
 2026-07-04 04:57:04,705 - load - INFO - Star schema processing complete. Iterated through 216 rows.
 2026-07-04 04:57:04,706 - __main__ - INFO - Pipeline executed successfully finished.
+2026-07-06 06:20:40,868 - __main__ - INFO - Starting weather data pipeline...
+2026-07-06 06:20:41,997 - pipeline.load - INFO - Staging raw JSON data for lagos into database...
+2026-07-06 06:20:42,047 - pipeline.load - INFO - Successfully staged lagos.
+2026-07-06 06:20:42,062 - pipeline.validate - INFO - Starting data validation checks...
+2026-07-06 06:20:42,065 - pipeline.validate - INFO - Check Passed: Column 'temperature_2m' has zero null values.
+2026-07-06 06:20:42,068 - pipeline.validate - INFO - Check Passed: Column 'time' has zero null values.
+2026-07-06 06:20:42,070 - pipeline.validate - INFO - Check Passed: Column 'city' has zero null values.
+2026-07-06 06:20:42,074 - pipeline.validate - INFO - Check Passed: lagos has exactly 72.
+2026-07-06 06:20:42,079 - pipeline.validate - INFO - Check Passed: All temperatures for lagos are within range.
+2026-07-06 06:20:42,079 - pipeline.validate - INFO - All critical validation checks passed.
+2026-07-06 06:20:42,080 - __main__ - INFO - Successfully processed lagos
+2026-07-06 06:20:43,217 - pipeline.load - INFO - Staging raw JSON data for abuja into database...
+2026-07-06 06:20:43,261 - pipeline.load - INFO - Successfully staged abuja.
+2026-07-06 06:20:43,270 - pipeline.validate - INFO - Starting data validation checks...
+2026-07-06 06:20:43,272 - pipeline.validate - INFO - Check Passed: Column 'temperature_2m' has zero null values.
+2026-07-06 06:20:43,274 - pipeline.validate - INFO - Check Passed: Column 'time' has zero null values.
+2026-07-06 06:20:43,276 - pipeline.validate - INFO - Check Passed: Column 'city' has zero null values.
+2026-07-06 06:20:43,277 - pipeline.validate - INFO - Check Passed: abuja has exactly 72.
+2026-07-06 06:20:43,280 - pipeline.validate - INFO - Check Passed: All temperatures for abuja are within range.
+2026-07-06 06:20:43,280 - pipeline.validate - INFO - All critical validation checks passed.
+2026-07-06 06:20:43,280 - __main__ - INFO - Successfully processed abuja
+2026-07-06 06:20:44,350 - pipeline.load - INFO - Staging raw JSON data for kano into database...
+2026-07-06 06:20:44,391 - pipeline.load - INFO - Successfully staged kano.
+2026-07-06 06:20:44,401 - pipeline.validate - INFO - Starting data validation checks...
+2026-07-06 06:20:44,403 - pipeline.validate - INFO - Check Passed: Column 'temperature_2m' has zero null values.
+2026-07-06 06:20:44,405 - pipeline.validate - INFO - Check Passed: Column 'time' has zero null values.
+2026-07-06 06:20:44,406 - pipeline.validate - INFO - Check Passed: Column 'city' has zero null values.
+2026-07-06 06:20:44,409 - pipeline.validate - INFO - Check Passed: kano has exactly 72.
+2026-07-06 06:20:44,411 - pipeline.validate - INFO - Check Passed: All temperatures for kano are within range.
+2026-07-06 06:20:44,412 - pipeline.validate - INFO - All critical validation checks passed.
+2026-07-06 06:20:44,412 - __main__ - INFO - Successfully processed kano
+2026-07-06 06:20:44,414 - __main__ - INFO - Combining data completed. Total records: 216
+2026-07-06 06:20:44,424 - pipeline.load - INFO - Data successfuly saved to data/weather_data.csv
+2026-07-06 06:20:44,486 - pipeline.load - INFO - Data succesfully loaded to data/weather.db
+2026-07-06 06:20:44,487 - pipeline.load - INFO - Connecting to database to load star schema: data/weather.db
+2026-07-06 06:20:44,555 - pipeline.load - INFO - Star schema processing complete. Iterated through 216 rows.
+2026-07-06 06:20:44,555 - __main__ - INFO - Pipeline executed successfully finished.

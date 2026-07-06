@@ -1,6 +1,6 @@
 import sqlite3
 import logging
-from config import LOCATIONS
+from pipeline.config import LOCATIONS
 import json
 
 # setting up logging for this file
