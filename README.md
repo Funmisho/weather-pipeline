@@ -1,6 +1,6 @@
 # Weather Data Pipeline
 
-A production-style Python ETL/ELT pipeline that pulls 3-day hourly weather forecasts for Lagos, Abuja, and Kano from the Open-Meteo REST API, transforms the data into a structured format, and loads it into a SQLite star schema with staging, validation, and structured logging.
+A production-style Python ETL/ELT pipeline that pulls 3-day hourly weather forecasts for Lagos, Abuja, and Kano from the Open-Meteo REST API, transforms the data into a structured format, loads it into a SQLite star schema, and runs automatically every day via Apache Airflow.
 
 ## What it does
 
@@ -11,6 +11,7 @@ A production-style Python ETL/ELT pipeline that pulls 3-day hourly weather forec
 - Loads cleaned data into a SQLite star schema (fact_weather, dim_location, dim_time) and CSV
 - Handles API failures per city gracefully without crashing the pipeline
 - Logs all pipeline events and errors to both terminal and pipeline.log
+- Orchestrates the full pipeline automatically on a daily schedule using Apache Airflow
 
 ## Architecture
 
@@ -46,6 +47,19 @@ flowchart TD
     style O fill:#2ECC71,color:#fff
 ```
 
+## Airflow DAG
+
+The pipeline runs automatically every day at midnight via Apache Airflow using a two-task architecture:
+
+| Task | Function | Description |
+|------|----------|-------------|
+| `ingest_raw_data` | Task 1 | Extracts from API and stages raw JSON to SQLite |
+| `transform_and_load` | Task 2 | Reads staging, transforms, validates, and loads to all targets |
+
+Task 2 triggers automatically after Task 1 succeeds. If Task 1 fails, Task 2 is skipped.
+
+![Airflow DAG Success](docs/airflow_success.png)
+
 ## Tech stack
 
 - Python 3
@@ -54,6 +68,7 @@ flowchart TD
 - sqlite3 (built-in)
 - logging (built-in)
 - pytest
+- Apache Airflow 2.9.1
 
 ## How to run it
 
@@ -74,12 +89,24 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-4. Run the pipeline
+4. Run the pipeline manually
 ```
 python3 pipeline.py
 ```
 
-5. Run the tests
+5. Run with Airflow
+
+Initialize Airflow and start the webserver and scheduler:
+```
+export AIRFLOW_HOME=/path/to/weather-pipeline
+airflow db migrate
+airflow webserver --port 8080
+airflow scheduler
+```
+
+Then open `http://localhost:8080`, enable the `nigerian_cities_weather_pipeline` DAG and trigger a run.
+
+6. Run the tests
 ```
 python3 -m pytest tests/ -v
 ```
@@ -88,18 +115,20 @@ python3 -m pytest tests/ -v
 
 ```
 weather-pipeline/
+├── dags/
+│   └── weather_dag.py      # Airflow DAG definition
 ├── pipeline/
-│   ├── config.py       # API base URL, city coordinates, and parameters
-│   ├── extract.py      # Fetches raw JSON data from the Open-Meteo API
-│   ├── transform.py    # Parses JSON, builds DataFrame, formats timestamps
-│   ├── load.py         # Saves data to CSV, flat SQLite table, and star schema
-│   └── validate.py     # Data quality checks before loading
+│   ├── config.py           # API base URL, city coordinates, and parameters
+│   ├── extract.py          # Fetches raw JSON data from the Open-Meteo API
+│   ├── transform.py        # Parses JSON, builds DataFrame, formats timestamps
+│   ├── load.py             # Saves data to CSV, flat SQLite table, and star schema
+│   └── validate.py         # Data quality checks before loading
 ├── tests/
-│   └── test_pipeline.py  # pytest unit tests
-├── pipeline.py         # Orchestrates the full ETL/ELT pipeline
-├── schema.sql          # Star schema table definitions
+│   └── test_pipeline.py    # pytest unit tests
+├── pipeline.py             # Orchestrates the full ETL/ELT pipeline manually
+├── schema.sql              # Star schema table definitions
 ├── requirements.txt
-└── data/               # Output folder (generated on run, gitignored)
+└── data/                   # Output folder (generated on run, gitignored)
 ```
 
 ## Star schema design
@@ -120,8 +149,8 @@ longitude             hour                     temperature_2m
 
 | time                | temperature_2m | precipitation | windspeed_10m | city  |
 |---------------------|----------------|---------------|---------------|-------|
-| 2026-07-04 00:00:00 | 25.9           | 0.1           | 8.9           | lagos |
-| 2026-07-04 01:00:00 | 25.6           | 0.3           | 5.1           | lagos |
-| 2026-07-04 02:00:00 | 25.2           | 0.2           | 4.4           | lagos |
-| 2026-07-04 03:00:00 | 25.0           | 0.2           | 3.8           | lagos |
-| 2026-07-04 04:00:00 | 25.1           | 0.2           | 3.1           | lagos |
+| 2026-07-07 00:00:00 | 25.9           | 0.1           | 8.9           | lagos |
+| 2026-07-07 01:00:00 | 25.6           | 0.3           | 5.1           | lagos |
+| 2026-07-07 02:00:00 | 25.2           | 0.2           | 4.4           | lagos |
+| 2026-07-07 03:00:00 | 25.0           | 0.2           | 3.8           | lagos |
+| 2026-07-07 04:00:00 | 25.1           | 0.2           | 3.1           | lagos |

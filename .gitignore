@@ -1,7 +1,21 @@
+# Virtual environment
 venv/
 .env
+
+# Data directory
+data/
+
+# Local logs
+*.log
+logs/
+
+# Recursive Python cache matching
 **/__pycache__/
 **/*.pyc
 .pytest_cache/
-data/
-*.log
+
+# Airflow Infrastructure Exclusions
+airflow.db
+airflow-webserver.pid
+airflow.cfg
+webserver_config.py
