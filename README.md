@@ -23,25 +23,27 @@ flowchart TD
     
     D --> E[Validate\nvalidate.py]
     
-    E -->|Pass| F[Load\nload.py]
+    E -->|Pass| F[Combine Cities\npd.concat]
     E -->|Fail| G[⚠️ Skip City\nLog Error]
     
-    F --> H[📄 CSV File\nweather_data.csv]
-    F --> I[(SQLite Database\nweather.db)]
+    F --> H[Load\nload.py]
     
-    I --> J[📊 Star Schema]
-    I --> K[🗃️ Flat Table\nweather]
+    H --> I[📄 CSV File\nweather_data.csv]
+    H --> J[(SQLite Database\nweather.db)]
     
-    J --> L[fact_weather]
-    J --> M[dim_location]
-    J --> N[dim_time]
+    J --> K[🗃️ Flat Table\nweather]
+    J --> L[📊 Star Schema]
+    
+    L --> M[fact_weather]
+    L --> N[dim_location]
+    L --> O[dim_time]
 
     style A fill:#4A90D9,color:#fff
     style G fill:#E74C3C,color:#fff
-    style J fill:#27AE60,color:#fff
-    style L fill:#2ECC71,color:#fff
+    style L fill:#27AE60,color:#fff
     style M fill:#2ECC71,color:#fff
     style N fill:#2ECC71,color:#fff
+    style O fill:#2ECC71,color:#fff
 ```
 
 ## Tech stack
