@@ -2,6 +2,7 @@ import sqlite3
 import logging
 from pipeline.config import LOCATIONS
 import json
+import os
 
 # setting up logging for this file
 logger = logging.getLogger(__name__)
@@ -20,6 +21,10 @@ def load_star_schema(data=None, db_path='data/weather.db'):
     logger.info(f"Connecting to database to load star schema: {db_path}")
     con = sqlite3.connect(db_path)
     cursor = con.cursor()
+
+    if not os.path.exists('schema.sql'):
+        logger.critical("schema.sql not found. Aborting database operation!")
+        raise FileNotFoundError("Required schema file not found.")
 
     # create tables from schema file
     with open('schema.sql', 'r') as f:
@@ -74,6 +79,11 @@ def load_staging(data=None, city=None, db_path='data/weather.db'):
     logger.info(f"Staging raw JSON data for {city} into database...")
     con = sqlite3.connect(db_path)
     cursor = con.cursor()
+
+    if not os.path.exists('schema.sql'):
+        logger.critical("schema.sql not found. Aborting database operation!")
+        raise FileNotFoundError("Required schema file not found.")
+
 
     # create staging table from schema script
     with open('schema.sql', 'r') as f:

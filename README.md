@@ -12,6 +12,37 @@ A production-style Python ETL/ELT pipeline that pulls 3-day hourly weather forec
 - Handles API failures per city gracefully without crashing the pipeline
 - Logs all pipeline events and errors to both terminal and pipeline.log
 
+## Architecture
+
+```mermaid
+flowchart TD
+    A[🌐 Open-Meteo REST API] --> B[Extract\nextract.py]
+    
+    B --> C[Stage Raw JSON\nstaging_weather table]
+    C --> D[Transform\ntransform.py]
+    
+    D --> E[Validate\nvalidate.py]
+    
+    E -->|Pass| F[Load\nload.py]
+    E -->|Fail| G[⚠️ Skip City\nLog Error]
+    
+    F --> H[📄 CSV File\nweather_data.csv]
+    F --> I[(SQLite Database\nweather.db)]
+    
+    I --> J[📊 Star Schema]
+    I --> K[🗃️ Flat Table\nweather]
+    
+    J --> L[fact_weather]
+    J --> M[dim_location]
+    J --> N[dim_time]
+
+    style A fill:#4A90D9,color:#fff
+    style G fill:#E74C3C,color:#fff
+    style J fill:#27AE60,color:#fff
+    style L fill:#2ECC71,color:#fff
+    style M fill:#2ECC71,color:#fff
+    style N fill:#2ECC71,color:#fff
+
 ## Tech stack
 
 - Python 3
