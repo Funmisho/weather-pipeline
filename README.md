@@ -19,7 +19,7 @@ flowchart TD
     A[🌐 Open-Meteo REST API] --> B[Extract\nextract.py]
     
     B --> C[Stage Raw JSON\nstaging_weather table]
-    C --> D[Transform\ntransform.py]
+    B --> D[Transform\ntransform.py]
     
     D --> E[Validate\nvalidate.py]
     
@@ -42,6 +42,7 @@ flowchart TD
     style L fill:#2ECC71,color:#fff
     style M fill:#2ECC71,color:#fff
     style N fill:#2ECC71,color:#fff
+```
 
 ## Tech stack
 
